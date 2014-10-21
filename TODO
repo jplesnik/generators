@@ -1,0 +1,31 @@
+The following definitions of requires are not process properly:
+
+# Only the first module is found
+use POE qw(System::Wheel Client::HTTP);
+use Any::Moose 'Role';
+
+use aliased "Some::Crazy::Module";
+use aliased "Another::Crazy::Module" => "ShorterName";
+ 
+use Test::Requires qw(TestRequiresArray1 TestRequiresArray2);
+use Test::Requires {TestRequiresHash1 => 0.1, TestRequiresHash2 => 0.2};
+
+# The modules defined by 'with' are not found
+use Moose;
+with 'Foo::Bar' => { -version => 0.01 },
+     'Bar::Baz' => { -version => 0.03 };
+
+
+# The statement below is not parsed correctly, because it does not remove
+# anything from list of found modules.
+use parent -norequire, 'NotRequiredByParent1', 'NotRequiredByParent2';
+
+# Do not process 'no' yet
+no File::Path;
+
+# Does not find modules defined at 'eval'
+eval{ require File::Spec; 1} or die;
+
+# Does not support multi-line statements
+use overload
+    + = \&plus;

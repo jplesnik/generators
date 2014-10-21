@@ -1,0 +1,91 @@
+###################################################
+# Examples of provides
+###################################################
+
+package Test;
+
+package TMP::tmp;
+
+###################################################
+# Examples of requires
+###################################################
+
+###################################################
+# Simple 'use'
+
+use Test::Simple;
+
+###################################################
+# Simple 'use' with whitespaces at the beginning
+
+    use Use::WhiteSpace;
+
+###################################################
+# 'use' with version
+
+use v5.6.1;
+use version 0.77;
+
+# TODO
+use Meow v1.2.3;
+
+###################################################
+# 'use' with parameter 
+# TODO
+# The extra parameters are found only for 'base' and 'parent'
+
+use overload
+    + = \&plus;
+
+use POE qw(System::Wheel Client::HTTP);
+use Any::Moose 'Role';
+
+use aliased "Some::Crazy::Module";
+use aliased "Another::Crazy::Module" => "ShorterName";
+
+use Moose;
+# Is not find yet
+with 'Foo::Bar' => { -version => 0.01 },
+     'Bar::Baz' => { -version => 0.03 };
+
+use Test::Requires qw(TestRequiresArray1 TestRequiresArray2);
+use Test::Requires {TestRequiresHash1 => 0.1, TestRequiresHash2 => 0.2};
+
+
+###################################################
+# 'use' with 'base' or 'parent
+
+use base 'Exporter';
+use parent qw(DBI);
+
+# TODO
+# It is not parse correctly yet, because it does not remove anything from list
+# of found modules.
+# use parent 'NotRequiredByParent1';
+# use parent -norequire, 'NotRequiredByParent1', 'NotRequiredByParent2';
+#
+# Do not process 'no' yet
+# no File::Path;
+#
+# use if $[ < 5.8.8, POE => qw(Client::TCP Server::TCP)
+
+###################################################
+# 'require'
+
+require File::Copy ();
+require Carp;
+
+###################################################
+# 'require' with whitespaces at the beginning
+
+# TODO
+    require Require::WhiteSpace;
+
+
+# TODO
+# Does not find modules defined at 'eval'
+eval{ require File::Spec; 1} or die;
+
+1
+
+
