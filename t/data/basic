@@ -1,9 +1,12 @@
+# Inversioned Alpha should not be listed
 use Alpha;
 use Alpha 0.12;
+
 use Alpha::One;
 use qw(Alpha::Two);
 use Beta ();
 require Gamma;
+use ExtUtils::MM_Unix;
 
 eval { require Delta }; 
 
@@ -14,7 +17,11 @@ require v5.6.1;
 require 5.006_001;
 use 5.010;
 
+# 'use' does not accept module name with .pm
 use 'Ignore.pm';
+
+# Dist-Zilla-5.027/lib/Dist/Zilla/Plugin/MakeMaker.pm
+use ExtUtils::MakeMaker{{ defined $eumm_version && 0+$eumm_version ? ' ' . $eumm_version : '' }};
 
 require Eta;
 require 'Theta.pm';

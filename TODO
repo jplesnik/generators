@@ -17,6 +17,5 @@ no File::Path;
 # Does not find modules defined at 'eval'
 eval{ require File::Spec; 1} or die;
 
-# Does not support multi-line statements
-use overload
-    + = \&plus;
+https://metacpan.org/source/ETHER/Module-Runtime-Conflicts-0.001/lib/Module/Runtime/Conflicts.pm
+BEGIN { use Test::More }

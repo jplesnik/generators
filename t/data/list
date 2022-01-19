@@ -2,14 +2,15 @@ use base 'Alpha';
 use base qw(Beta Gamma);
 use base qw(Delta);
 use parent 'Epsilon';
+
+# 'Zeta', 'Iota' should not be found
 use parent -norequire, qw(Zeta Iota);
+
 use aliased "Some::Crazy::Module";
 
 # 'ShorterName' should not be found
 use aliased "Another::Crazy::Module" => "ShorterName";
 
-
-# TODO: Find multiple line use. 
 use overload
     '+' => \&myadd,
     '-' => \&mysub;

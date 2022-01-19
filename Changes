@@ -1,6 +1,11 @@
 Revision history for perl-generators.
 
-1.01  Tue May 22 2014
+1.02  Fri Dec 12 2014
+- Fix BZ#1172716 - update regex to properly match the module name
+- Update tests suite
+- Update the steps to get package version
+
+1.01  Tue Oct 21 2014
 - Fixed BZ#1160263 - do not catch numeric substring in the
   variable name for VERSION
 - Update requires generator to:

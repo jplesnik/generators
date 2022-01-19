@@ -96,7 +96,7 @@ sub process_file {
     }
 
     if ($incomment || $inover) {
-       next;
+      next;
     }
 
     # skip the data section
@@ -108,17 +108,18 @@ sub process_file {
     # package name so we report all namespaces except some common
     # false positives as if they were provided packages (really ugly).
 
-    if (m/^\s*package\s+([_:a-zA-Z0-9]+)\s*;/) {
+    if (m/^\s*package\s+([_:a-zA-Z0-9]+)\s*v?([0-9._]+)?\s*;/) {
       $package = $1;
-      undef $version;
+      $version = defined($2) ? $2 : undef;
       if ($package eq 'main') {
         undef $package;
+        undef $version;
       } else {
         # If $package already exists in the $require hash, it means
         # the package definition is broken up over multiple blocks.
         # In that case, don't stomp a previous $VERSION we might have
         # found.  (See BZ#214496.)
-        $require{$package} = undef unless (exists $require{$package});
+        $require{$package} = $version unless (exists $require{$package});
       }
     }
 
@@ -137,7 +138,7 @@ sub process_file {
     # or with the new "our" pragma you could (read will) see:
     #
     #    our $VERSION = '1.00'
-    if ($package && m/^\s*(our\s+)?\$(\Q$package\E::)?VERSION\s*=\s*/) {
+    if ($package && m/^\s*(our\s+)?\$(\Q$package\E::)?VERSION\s*=[^=~>]\s*/) {
 
       # first see if the version string contains the string
       # '$Revision' this often causes bizarre strings and is the most
@@ -145,7 +146,7 @@ sub process_file {
 
       if (m/\$Revision: (\d+[.0-9]+)/) {
         $version = $1;
-      } elsif (m/\b['"]?[v]?(\d+(?:\.[.0-9]+)?)(_\d*|[a-zA-Z]*)?['"]?\b/) {
+      } elsif (m/\b['"]?v?(\d+(?:\.[.0-9]+)?)(_\d*|[a-zA-Z]*)?['"]?\b/) {
 
         # look for a static number hard coded in the script
 

@@ -25,8 +25,9 @@ $VERSION = (qw$Revision: 1.7 $)[1];
 package DynaLoader;
 $VERSION = $VERSION = "1.03";     # avoid typo warning
 
+# version should not be found
 package Config::General;
-$Config::General::VERSION = 2.33;
+$Config::General::VERSION == 2.33;
 
 package Alpha::Beta123;
 our $VERSION = $Alpha::Beta123::VERSION=1.23;
@@ -53,3 +54,20 @@ our $VERSION = 'v0.3.0';
 
 package XML::Grove;
 $VERSION = '0.46alpha';
+
+package Kappa::Lambda v5.43;
+
+# version should not be found
+  package Xi;
+  $VERSION =~ s/1.24/1.00/;
+
+package ExtUtils::MM_Unix;
+
+# Multiline module definition are ignored for now
+package # hide form PAUSE
+    DBIx::Class::CDBICompat::AbstractSearch;
+
+package 
+   Sigma
+   1.27
+   ;

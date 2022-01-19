@@ -155,16 +155,16 @@ sub process_file {
          (require|use)\s+(?!\{)     # do not want 'do {' loops
          # quotes around name are always legal
          $begin_re?\s*
-         ([^)"'!|} \t#;]*?)
-         \s*$end_re?[\t; ]
+         ([\w:\.\/]+?)
+         \s*$end_re?[^\w]*?[\t; \n]
          # the syntax for 'use' allows version requirements
-         \s*($modver_re|)\s*
+         \s*($modver_re)?\s*
          # catch parameter like '-norequire,'
-         (-[\w,]+|)\s*
+         (-[\w,]+)?\s*
          # the latter part is for "use base qw(Foo)" and friends special case
          (?:$begin_re\s*
          ([^)\/"'\$!|}]*?)
-         \s*$end_re|['"][^'"]+['"]|)
+         \s*$end_re|['"][^'"]+['"]|)\s*
          /x)
        ) {
       my ($whitespace, $statement, $module, $version, $params, $list) = ($1, $2, $3, $4, $5, $6);
