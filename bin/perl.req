@@ -22,6 +22,7 @@
 
 $HAVE_VERSION = 0;
 eval { require version; $HAVE_VERSION = 1; };
+use Fedora::VSP ();
 
 
 if ("@ARGV") {
@@ -40,7 +41,7 @@ if ("@ARGV") {
 
 
 foreach $perlver (sort keys %perlreq) {
-  print "perl >= $perlver\n";
+  print "perl(:VERSION) >= $perlver\n";
 }
 foreach $module (sort keys %require) {
   if (length($require{$module}) == 0) {
@@ -279,17 +280,13 @@ sub process_file {
 
       $module =~ s/\(\s*\)$//;
 
-      if ( $module =~ m/^v?([0-9._]+)$/ ) {
+      if ( $module =~ m/^(v?[0-9._]+)$/ ) {
         # if module is a number then both require and use interpret that
         # to mean that a particular version of perl is specified
 
-        my $ver = $1;
-        if ($ver =~ /5.00/) {
-          $perlreq{"0:$ver"} = 1;
-          next;
-        }
-        else {
-          $perlreq{"1:$ver"} = 1;
+        my $rpm_ver = Fedora::VSP::vsp($1);
+        if (defined $rpm_ver) {
+          $perlreq{"$rpm_ver"} = 1;
           next;
         }
 

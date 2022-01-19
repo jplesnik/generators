@@ -14,9 +14,9 @@ is(scalar(@provides), 0, 'No package is provided');
 #
 # Requires
 my @expectedrequires = (
-    "perl >= 1:5.6.1\n",
-    "perl >= 0:5.006_001\n",
-    "perl >= 1:5.010\n",
+    "perl(:VERSION) >= 5.6.1\n",
+    "perl(:VERSION) >= 5.6.0\n",
+    "perl(:VERSION) >= 5.10.0\n",
     "perl(Alpha) >= 0.12\n",
     "perl(Alpha::One)\n",
     "perl(Alpha::Two)\n",

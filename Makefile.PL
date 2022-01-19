@@ -5,13 +5,14 @@ use ExtUtils::MakeMaker;
 
 WriteMakefile(
     'NAME' => 'generators',
-    'VERSION' => '1.06',
+    'VERSION' => '1.07',
     'AUTHOR' => 'Jitka Plesnikova <jplesnik@redhat.com>',
     'LICENSE' => 'gpl',
     'EXE_FILES' => [ ( glob 'bin/*' ) ],
     'BUILD_REQUIRES' => { 
     },
     'PREREQ_PM' => {
+        'Fedora::VSP' => 0,
         'version' => 0,
     },
     TEST_REQUIRES => {

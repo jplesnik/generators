@@ -22,5 +22,5 @@ foreach my $mod (@list_requires) {
     ok(grep(/^perl\($mod\)$/,@requires), "$mod module is required")
 }
 
-ok(grep(/perl >= 1:5.6.1/, @requires), "'perl >= 1:5.6.1' is required");
+ok(grep(/perl\(:VERSION\) >= 5\.6\.1/, @requires), "'perl(:VERSION) >= 5.6.1' is required");
 ok(grep(/perl\(version\) >= 0.77/, @requires), "'perl(version) >= 0.77' is required");
