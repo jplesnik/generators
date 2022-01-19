@@ -1,5 +1,8 @@
 Revision history for perl-generators.
 
+1.06  Tue Oct  5 2015
+- Do not process results that contain direct method calls
+
 1.05  Fri Oct  2 2015
 - Fixed parsing of "use base" to find out a bareword (BZ#1267267)
 - Update parsing of provides version when 'use version' is called

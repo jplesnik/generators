@@ -23,3 +23,14 @@ use base qw/
 use base qw ( 
     This
     One );
+
+# Two examples from perl-Sys-Info-Base
+# "__PACKAGE__" should not be found
+use base __PACKAGE__->load_subclass('Sys::Info::Driver::%s::Device::CPU');
+
+# It is not possible to filter constant which is used as a module
+use constant TARGET_CLASS => __PACKAGE__->load_subclass('Sys::Info::Driver::%s::OS');
+use base TARGET_CLASS;
+
+# Do not ignore line which contains '->' in a coment
+use base 'XML::XQL::Element';	 # L -> L

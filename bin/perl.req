@@ -62,6 +62,9 @@ exit 0;
 sub add_require {
   my ($module, $newver) = @_;
 
+  # __EXAMPLE__ is not valid requirement
+  return if ($module =~ m/^__[A-Z]+__$/o);
+
   # To prevent that module does not end with '::'
   # Example:  use base Object::Event::;
   $module =~ s/::$//;
@@ -188,31 +191,35 @@ sub process_file {
          (?:$begin_re\s*
           ([^)\/"'\$!|}]*?)
           \s*$end_re|
-	  (?:qw<|qq?<)([^>]*?)>|([\w\:]+)|)\s*(.*)
+          (?:qw<|qq?<)([^>]*?)>|([\w\:]+)|)\s*(.*)
          /x)
        ) {
       my ($whitespace, $statement, $module, $version, $params, $list, $rest) = ($1, $2, $3, $5, $6, $7 || $8 || $9, $10);
       $version = undef if ($version eq '');
 
+      # Ignore line which contains direct method calls
+      # use base __PACKAGE__->subroutine(...);
+      $list = "" if ($list =~ /^[^;#]*?->/ || $rest =~ /^[^;#]*?->/);
+
       #
       # Executed in case that multiline q{} quoted sections is used for
       # list of modules
-      if (defined($list) and $list =~ /^q[qxwr]?$/) {
-	$list = undef;
-	if ($rest =~ m/^\s*([{([#|!\/])\s*([^})\]#|!\/]*)$/) {
+      if (defined($list) && $list =~ /^q[qxwr]?$/) {
+        $list = "";
+        if ($rest =~ m/^\s*([{([#|!\/])\s*([^})\]#|!\/]*)$/) {
           $tag  = $1;
-	  $list = $2;
+          $list = $2;
           chomp($list);
           $tag  =~ tr/{\(\[\#|!\//})]#|!\//;
           $tag  = quotemeta($tag);
           while (<FILE>) {
             my $line = $_;
             chomp($line);
-	    if ($line =~ m/^\s*(.*?)$tag/) {
-	      $list .= ' ' . $1 if ($1 ne '');
-	      last;
-	    } else { $list .= ' ' . $line; }
-	  }
+            if ($line =~ m/^\s*(.*?)$tag/) {
+              $list .= ' ' . $1 if ($1 ne '');
+              last;
+            } else { $list .= ' ' . $line; }
+          }
         }
       }
 
