@@ -24,6 +24,11 @@ my @expectedrequires = (
     "perl(base)\n",
     "perl(parent)\n",
     "perl(Theta)\n",
+    "perl(Kappa::Lambda)\n",
+    "perl(Mu::Nu)\n",
+    "perl(Try)\n",
+    "perl(This)\n",
+    "perl(One)\n",
 );
 
 is_deeply([ sort @requires ], [ sort @expectedrequires ], "Only expected requires were found.");

@@ -153,7 +153,7 @@ sub process_file {
     # or with the new "our" pragma you could (read will) see:
     #
     #    our $VERSION = '1.00'
-    if ($package && m/^\s*(?:[^#=]*=[^=~>]|)?\s*(?:our\s+)?\$(?:\Q$package\E::)?VERSION\s*=([^=~>]\s*[^;]*)/) {
+    if ($package && m/^(?:\s*use\s+version\s*;)?\s*(?:[^#=]*=[^=~>]|)?\s*(?:our\s+)?\$(?:\Q$package\E::)?VERSION\s*=([^=~>]\s*[^;]*)/) {
       my $version_str = $1;
 
       # first see if the version string contains the string

@@ -61,6 +61,11 @@ exit 0;
 
 sub add_require {
   my ($module, $newver) = @_;
+
+  # To prevent that module does not end with '::'
+  # Example:  use base Object::Event::;
+  $module =~ s/::$//;
+
   my $oldver = $require{$module};
   if ($oldver) {
     $require{$module} = $newver
@@ -183,11 +188,33 @@ sub process_file {
          (?:$begin_re\s*
           ([^)\/"'\$!|}]*?)
           \s*$end_re|
-	  (?:qw<|qq?<)([^>]*?)>|)\s*
+	  (?:qw<|qq?<)([^>]*?)>|([\w\:]+)|)\s*(.*)
          /x)
        ) {
-      my ($whitespace, $statement, $module, $version, $params, $list) = ($1, $2, $3, $5, $6, $7 || $8);
+      my ($whitespace, $statement, $module, $version, $params, $list, $rest) = ($1, $2, $3, $5, $6, $7 || $8 || $9, $10);
       $version = undef if ($version eq '');
+
+      #
+      # Executed in case that multiline q{} quoted sections is used for
+      # list of modules
+      if (defined($list) and $list =~ /^q[qxwr]?$/) {
+	$list = undef;
+	if ($rest =~ m/^\s*([{([#|!\/])\s*([^})\]#|!\/]*)$/) {
+          $tag  = $1;
+	  $list = $2;
+          chomp($list);
+          $tag  =~ tr/{\(\[\#|!\//})]#|!\//;
+          $tag  = quotemeta($tag);
+          while (<FILE>) {
+            my $line = $_;
+            chomp($line);
+	    if ($line =~ m/^\s*(.*?)$tag/) {
+	      $list .= ' ' . $1 if ($1 ne '');
+	      last;
+	    } else { $list .= ' ' . $line; }
+	  }
+        }
+      }
 
       # we only consider require statements that are flushed against
       # the left edge. any other require statements give too many
@@ -310,9 +337,9 @@ sub process_file {
       }
 
       add_require($module, $version);
-    }
+    } # use|require regex
 
-  }
+  } # while (<FILE>)
 
   close(FILE) ||
     die("$0: Could not close file: '$file' : $!\n");

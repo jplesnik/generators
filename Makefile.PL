@@ -5,7 +5,7 @@ use ExtUtils::MakeMaker;
 
 WriteMakefile(
     'NAME' => 'generators',
-    'VERSION' => '1.04',
+    'VERSION' => '1.05',
     'AUTHOR' => 'Jitka Plesnikova <jplesnik@redhat.com>',
     'LICENSE' => 'gpl',
     'EXE_FILES' => [ ( glob 'bin/*' ) ],

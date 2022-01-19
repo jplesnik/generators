@@ -12,3 +12,14 @@ use aliased "Some::Crazy::Module";
 # 'ShorterName' should not be found
 use aliased "Another::Crazy::Module" => "ShorterName";
 
+use base Kappa::Lambda;
+
+use base Mu::Nu::;
+
+use base qw/
+    Try
+/;
+
+use base qw ( 
+    This
+    One );

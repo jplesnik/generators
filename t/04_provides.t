@@ -8,8 +8,11 @@ my @provides = qx(bin/perl.prov $file);
 
 #
 # Requires
-is(scalar(@requires), 0, 'No module is required');
+my @expectedrequires = ("perl(version)\n");
+is_deeply([ sort @requires ], [ sort @expectedrequires ], "Only 'perl(version)' is required.");
 
+#
+# Provides
 my @expectedprovides = (
     "perl(Alpha)\n",
     "perl(Alpha::Beta123) = 1.23\n",
@@ -33,6 +36,8 @@ my @expectedprovides = (
     "perl(XML::Grove) = 0.46\n",
     "perl(Xi)\n",
     "perl(Zeta) = 0.05\n",
+    "perl(Module::ExtractUse) = 0.33\n",
+    "perl(Module::Info)\n",
 );
 
 is_deeply([ sort @provides ], [ sort @expectedprovides ], "All expected provides were found.");

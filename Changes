@@ -1,4 +1,9 @@
 Revision history for perl-generators.
+
+1.05  Fri Oct  2 2015
+- Fixed parsing of "use base" to find out a bareword (BZ#1267267)
+- Update parsing of provides version when 'use version' is called
+
 1.04  Tue Jul 28 2015
 - Update parsing of provide's version
 - Add changes released in rpm 4.12.0

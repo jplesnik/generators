@@ -75,3 +75,10 @@ package
 package DBI;
 our $XS_VERSION = our $VERSION = "1.633"; # ==> ALSO update the version in the pod text below!
 
+package Module::ExtractUse;
+use version; our $VERSION=version->new('0.33');
+
+# Do not process this kind of version definition
+package Module::Info;
+$VERSION = eval 'use version; 1' ? 'version'->new('0.35') : '0.35';
+
