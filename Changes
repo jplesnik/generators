@@ -1,4 +1,7 @@
 Revision history for perl-generators.
+1.03  Mon Feb  2 2015
+- Updated parcing of here-doc and quoted section which should be skipped
+- Update tests suite
 
 1.02  Fri Dec 12 2014
 - Fix BZ#1172716 - update regex to properly match the module name

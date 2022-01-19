@@ -24,7 +24,6 @@ my @expectedrequires = (
     "perl(Epsilon)\n",
     "perl(Eta)\n",
     "perl(ExtUtils::MM_Unix)\n",
-    "perl(ExtUtils::MakeMaker)\n",
     "perl(Gamma)\n",
     "perl(Iota)\n",
     "perl(Kappa)\n",

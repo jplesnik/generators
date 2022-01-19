@@ -1,0 +1,147 @@
+#
+# 'authentication' should not be found, because it is part of "= <<" block
+twitter_api_method suggestion_categories => (
+    path        => 'users/suggestions',
+    method      => 'GET',
+    params      => [],
+    required    => [],
+    returns     => 'ArrayRef',
+    description => <<''
+Returns the list of suggested user categories. The category slug can be used in
+the C<user_suggestions> API method get the users in that category .  Does not
+require authentication
+package authentication;
+
+);
+
+%hash = (
+    "text" => << 'EOT'
+use and require is a horrible stuff
+package EOT
+EOT
+);
+
+$template = <<EXIT;
+package To::Test;
+use to test
+require should be tested too;
+EXIT
+
+$test = <<''
+package in::test;
+require test should not be found in a text;
+
+
+my $test = <<'@'
+package temp;
+require temp also should not be found in a text
+@
+;
+
+#
+# Dist-Zilla-5.027/lib/Dist/Zilla/Plugin/MakeMaker.pm
+# None of requirement befor last '!' should not be reported
+my $template = q!
+package Template;
+use strict;
+use warnings;
+
+use ExtUtils::MakeMaker{{ defined $eumm_version && 0+$eumm_version ? ' ' . $eumm_version : '' }};
+
+!;
+
+sub note_template {
+  my ($self, $log, $text) = @_;
+  my $diff = _prepend_comment( $self->get_diff($log) );
+  return << "HERE";
+package Use::Template;
+use Template;
+HERE
+}
+
+$pod .= << 'HERE';
+package Simply::Pod;
+use Simply::Pod;
+HERE
+
+push @LIB, <<EOF;
+use push
+EOF
+
+#--------------------------------------------------------------------------
+$ComTab{'c'}=[ 2, 'txt', \&Change,     <<'-X-'                           ]; #ok
+package Comments;
+use Comments;
+{ print <<'TheEnd'; } $doPrint = 0; goto EOS;
+-X-
+
+ok(153, docat_del($file) eq <<'EOM') ;
+use In::Function;
+EOM
+
+my $template = $self->note_template( $log, << "HERE" );
+perldelta: $section [pending]
+use 
+HERE
+
+write_file( File::Spec->catfile( $fulldir, 'bazmarkhian.al' ), <<'EOT' );
+package Foo;
+use Foo;
+1;
+EOT
+
+is (eval <<'END', 1, 'lexical topic compiles') or diag $@;
+  package Experimental
+  ;
+  use experimental 'lexical_topic';
+  my $_ = 1;
+  is($_, 1, '$_ is 1');
+END
+
+
+# Multiple here-docs does not properly. The skipping finish on the first tag
+myfunc(<< "THIS", 23, <<'THAT');
+package THIS;
+use THIS;
+THIS
+package THAT;
+use THAT;
+THAT
+
+print <<< 'test';
+package More::Then::Two::Mark;
+use More::Then::Two::Mark;
+
+print 20 << 20;
+print 20<<20;
+use Bitwise::Operator;
+
+use constant COPYRIGHT_SHORT => <<EOF;
+Test::Unit Version $Test::Unit::VERSION
+(c) 2000-2002, 2005 Christian Lemburg, Brian Ewins, et. al.
+use Heredoc::in::Use;
+EOF
+
+# Should not break test
+if (defined $::RD_TRACE) {
+    Parse::RecDescent::_trace(q{<<'.Parse::RecDescent::_matchtracemessage($self,1).' rule>>},
+    Parse::RecDescent::_tracefirst($_[1]),
+    q{' . $self->{"name"} .'},
+    $tracelevel)
+}
+
+$trase = q!<<TEST help
+   package In::Quoted::Section;
+   use In::Quoted::Section;
+!;
+
+print <<'1234';
+packageNumber::As::Tag;
+use Number::As::Tag;
+1234
+
+# This case should be the last and should be found each time.
+print "<<TEST";
+push @OUT, "return <<'END';\n";
+package Not::In::Heredoc;
+use Not::In::Heredoc;

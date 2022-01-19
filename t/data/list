@@ -11,6 +11,3 @@ use aliased "Some::Crazy::Module";
 # 'ShorterName' should not be found
 use aliased "Another::Crazy::Module" => "ShorterName";
 
-use overload
-    '+' => \&myadd,
-    '-' => \&mysub;

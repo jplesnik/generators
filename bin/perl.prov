@@ -72,31 +72,46 @@ sub process_file {
 
   while (<FILE>) {
 
+    # skip the here-docs "<<" blocks
+    # assume that <<12 means bitwise operation
+    if (((m/^\s*(?:'[^']*?'|"[^"]*?"|[^"'#]*?)*?([^"'#<@])<<(\w+)\s*/ &&
+          ($2 !~ m/^\d+$/)) ||
+         m/^\s*(?:'[^']*?'|"[^"]*?"|[^"'#]*?)*?[^"'#<@]<<\s*(["'`])(.+?|)\1\s*/
+        ) &&
+         ! m/q[qxwr]?\s*[{([#|!\/][^})\]#|!\/]*?<<[^<]/
+       ) {
+      $tag = $2;
+      while (<FILE>) {
+        chomp;
+        ( $_ eq $tag ) && last;
+      }
+      $_ = <FILE>;
+    }
+
+    # skip q{} quoted sections - just hope we don't have curly brackets
+    # within the quote, nor an escaped hash mark that isn't a comment
+    # marker, such as occurs right here. Draw the line somewhere.
+    if ( m/^.*\Wq[qxwr]?\s*([{([#|!\/])[^})\]#|!\/]*$/ && ! m/^\s*(package)\s/ ) {
+      $tag = $1;
+      $tag =~ tr/{\(\[\#|!\//})]#|!\//;
+      $tag = quotemeta($tag);
+      while (<FILE>) {
+        ( $_ =~ m/$tag/ ) && last;
+      }
+    }
+
     # skip the documentation
 
     # we should not need to have item in this if statement (it
     # properly belongs in the over/back section) but people do not
     # read the perldoc.
 
-    if (m/^=(head[1-4]|pod|for|item)/) {
-      $incomment = 1;
+    if (/^=(head[1-4]|pod|for|item)/) {
+      /^=cut/ && next while <FILE>;
     }
 
-    if (m/^=(cut)/) {
-      $incomment = 0;
-      $inover = 0;
-    }
-
-    if (m/^=(over)/) {
-      $inover = 1;
-    }
-
-    if (m/^=(back)/) {
-      $inover = 0;
-    }
-
-    if ($incomment || $inover) {
-      next;
+    if (/^=over/) {
+      /^=back/ && next while <FILE>;
     }
 
     # skip the data section

@@ -11,9 +11,13 @@ t/03_anymoose.t
 t/04_provides.t
 t/05_whitespace.t
 t/06_variables.t
+t/07_multiline.t
+t/08_heredoc.t
 t/data/anymoose
 t/data/basic
+t/data/heredoc
 t/data/list
+t/data/multiline
 t/data/provides
 t/data/todo
 t/data/variables
