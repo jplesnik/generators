@@ -409,7 +409,8 @@ sub process_file_provides {
 
   return if (! $HAVE_PROV);
 
-  my @result = readpipe( "$prov_script $file" );
+  $file =~ s/'/'"'"'/g;
+  my @result = readpipe( "$prov_script '$file'" );
   foreach my $prov (@result) {
     $provide{$1} = undef if $prov =~ /perl\(([_:a-zA-Z0-9]+)\)/;
   }

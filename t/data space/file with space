@@ -1,0 +1,28 @@
+# Inversioned Alpha should not be listed
+use Alpha;
+use Alpha 0.12;
+
+use Alpha::One;
+use qw(Alpha::Two);
+use Beta ();
+require Gamma;
+use ExtUtils::MM_Unix;
+
+eval { require Delta }; 
+
+# TODO: Don't recognize more than one 'use' or 'require' at one line
+use Epsilon; use Zeta;
+
+require v5.6.1;
+require 5.006_001;
+use 5.010;
+
+# 'use' does not accept module name with .pm
+use 'Ignore.pm';
+
+require Eta;
+require 'Theta.pm';
+require "Iota.pm";
+require q !Kappa.pm!;
+require qq{Lambda.pm};
+
