@@ -1,5 +1,9 @@
 Revision history for perl-generators.
 
+1.11  Thu May 22 2018
+- Squash multiple perl(:VERSION) symbols into one
+- Remove perl dependencies that are provided in the same file
+
 1.10  Fri Jul  1 2016
 - Update Makefile.PL to be able change requires/provides namespace for
   software collection

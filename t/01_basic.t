@@ -19,8 +19,6 @@ is(scalar(@provides), 0, 'No package is provided');
 #
 # Requires
 my @expectedrequires = (
-    "$perl_ns(:VERSION) >= 5.6.1\n",
-    "$perl_ns(:VERSION) >= 5.6.0\n",
     "$perl_ns(:VERSION) >= 5.10.0\n",
     "$perl_ns(Alpha) >= 0.12\n",
     "$perl_ns(Alpha::One)\n",

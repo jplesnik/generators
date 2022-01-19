@@ -14,9 +14,9 @@ my @provides = qx($PERL_PROV $file);
 #
 # Provides
 my @expectedprovides = (
-    "$perl_ns(More::Then::Two::Mark)\n",
-    "$perl_ns(Not::In::Heredoc)\n",
-    "$perl_ns(THAT)\n",
+    "$perl_ns(More::Then::Two::MarkP)\n",
+    "$perl_ns(Not::In::HeredocP)\n",
+    "$perl_ns(THATP)\n",
 );
 
 is_deeply([ sort @provides ], [ sort @expectedprovides ], "Only expected provides were found.");
@@ -26,10 +26,10 @@ is_deeply([ sort @provides ], [ sort @expectedprovides ], "Only expected provide
 my @expectedrequires = (
     "$perl_ns(Bitwise::Operator)\n",
     "$perl_ns(constant)\n",
-    "$perl_ns(More::Then::Two::Mark)\n",
+    "$perl_ns(More::Then::Two::MarkR)\n",
     "$perl_ns(Not::Hang)\n",
-    "$perl_ns(Not::In::Heredoc)\n",
-    "$perl_ns(THAT)\n",
+    "$perl_ns(Not::In::HeredocR)\n",
+    "$perl_ns(THATR)\n",
 );
 
 is_deeply([ sort @requires ], [ sort @expectedrequires ], "Only expected requires were found.");

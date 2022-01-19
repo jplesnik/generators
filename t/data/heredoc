@@ -60,8 +60,8 @@ HERE
 }
 
 $pod .= << 'HERE';
-package Simply::Pod;
-use Simply::Pod;
+package Simply::PodP;
+use Simply::PodR;
 HERE
 
 push @LIB, <<EOF;
@@ -70,8 +70,8 @@ EOF
 
 #--------------------------------------------------------------------------
 $ComTab{'c'}=[ 2, 'txt', \&Change,     <<'-X-'                           ]; #ok
-package Comments;
-use Comments;
+package CommentsP;
+use CommentsR;
 { print <<'TheEnd'; } $doPrint = 0; goto EOS;
 -X-
 
@@ -85,8 +85,8 @@ use
 HERE
 
 write_file( File::Spec->catfile( $fulldir, 'bazmarkhian.al' ), <<'EOT' );
-package Foo;
-use Foo;
+package FooP;
+use FooR;
 1;
 EOT
 
@@ -104,13 +104,13 @@ myfunc(<< "THIS", 23, <<'THAT');
 package THIS;
 use THIS;
 THIS
-package THAT;
-use THAT;
+package THATP;
+use THATR;
 THAT
 
 print <<< 'test';
-package More::Then::Two::Mark;
-use More::Then::Two::Mark;
+package More::Then::Two::MarkP;
+use More::Then::Two::MarkR;
 
 print 20 << 20;
 print 20<<20;
@@ -141,25 +141,25 @@ if (defined $::RD_TRACE) {
 }
 
 $trase = q!<<TEST help
-   package In::Quoted::Section;
-   use In::Quoted::Section;
+   package In::Quoted::SectionP;
+   use In::Quoted::SectionR;
 !;
 
 print <<'1234';
-package Number::As::Tag;
-use Number::As::Tag;
+package Number::As::TagP;
+use Number::As::TagR;
 1234
 
 $cost = <<\VISTA;   # Same thing!
  That'll be $10 please, ma'am.
-package Vista
-use Vista
+package VistaP
+use VistaR
 VISTA
 
 s/this/<<E . 'that'
 the other
-package Regex
-use Regex
+package RegexP
+use RegexR
 E
 . 'more '/eg;
 
@@ -173,5 +173,5 @@ sub demo {
 # This case should be the last and should be found each time.
 print "<<TEST";
 push @OUT, "return <<'END';\n";
-package Not::In::Heredoc;
-use Not::In::Heredoc;
+package Not::In::HeredocP;
+use Not::In::HeredocR;

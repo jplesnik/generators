@@ -3,3 +3,5 @@
 ^(./|)t/lib/
 MYMETA.*
 Makefile$
+.git.*
+.*.exists

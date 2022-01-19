@@ -26,18 +26,29 @@ $HAVE_VERSION = 0;
 eval { require version; $HAVE_VERSION = 1; };
 use Fedora::VSP ();
 
+use File::Basename;
+my $dir = dirname($0);
+$HAVE_PROV = 0;
+if ( -e "$dir/perl.prov" ) {
+  $HAVE_PROV = 1;
+  $prov_script = "$dir/perl.prov";
+}
 
 if ("@ARGV") {
-  foreach (@ARGV) {
-    process_file($_);
+  foreach my $file (@ARGV) {
+    process_file($file);
+    process_file_provides($file);
+    compute_global_requires();
   }
 } else {
 
   # notice we are passed a list of filenames NOT as common in unix the
   # contents of the file.
 
-  foreach (<>) {
-    process_file($_);
+  foreach my $file (<>) {
+    process_file($file);
+    process_file_provides($file);
+    compute_global_requires();
   }
 }
 
@@ -45,8 +56,9 @@ if ("@ARGV") {
 foreach $perlver (sort keys %perlreq) {
   print "$perl_ns(:VERSION) >= $perlver\n";
 }
-foreach $module (sort keys %require) {
-  if (length($require{$module}) == 0) {
+
+foreach my $module (sort keys %global_require) {
+  if (length($global_require{$module}) == 0) {
     print "$perl_ns($module)\n";
   } else {
 
@@ -54,13 +66,49 @@ foreach $module (sort keys %require) {
     # operators. Also I will need to change the processing of the
     # $RPM_* variable when I upgrade.
 
-    print "$perl_ns($module) >= $require{$module}\n";
+    print "$perl_ns($module) >= $global_require{$module}\n";
   }
 }
 
 exit 0;
 
+sub compute_global_requires {
 
+# restrict require to all non provided by the file
+  foreach my $moduler (sort keys %require) {
+    if (exists $provide{$moduler} && length($require{$moduler}) == 0) {
+      $require = delete $require{$moduler};
+    }
+  }
+# store requires to global_requires
+  foreach my $module (sort keys %require) {
+    my $oldver = $global_require{$module};
+    my $newver = $require{$module};
+    if ($oldver) {
+      $global_require{$module} = $newver
+        if ($HAVE_VERSION && $newver && version->new($oldver) < $newver);
+    } else {
+      $global_require{$module} = $newver;
+    }
+  }
+# remove all local requires and provides
+  undef %require;
+  undef %provide;
+}
+
+sub add_perlreq {
+  my ($newver) = @_;
+
+  if (%perlreq) {
+    my ($oldver) = keys %perlreq;
+    if (eval "v$oldver" lt eval "v$newver") {
+      delete $perlreq{$oldver};
+      $perlreq{$newver} = 1;
+    }
+  } else {
+    $perlreq{$newver} = 1;
+  }
+}
 
 sub add_require {
   my ($module, $newver) = @_;
@@ -289,7 +337,7 @@ sub process_file {
 
         my $rpm_ver = Fedora::VSP::vsp($1);
         if (defined $rpm_ver) {
-          $perlreq{"$rpm_ver"} = 1;
+          add_perlreq("$rpm_ver");
           next;
         }
 
@@ -352,4 +400,18 @@ sub process_file {
     die("$0: Could not close file: '$file' : $!\n");
 
   return;
+}
+
+sub process_file_provides {
+
+  my ($file) = @_;
+  chomp $file;
+
+  return if (! $HAVE_PROV);
+
+  my @result = readpipe( "$prov_script $file" );
+  foreach my $prov (@result) {
+    $provide{$1} = undef if $prov =~ /perl\(([_:a-zA-Z0-9]+)\)/;
+  }
+
 }
