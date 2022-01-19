@@ -1,5 +1,8 @@
 Revision history for perl-generators.
 
+1.12  Wed Feb 10 2021
+- Add perltest.attr to generate dependencies for tests sub-packages
+
 1.11  Thu May 22 2018
 - Squash multiple perl(:VERSION) symbols into one
 - Remove perl dependencies that are provided in the same file
