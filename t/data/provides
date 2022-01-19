@@ -1,0 +1,55 @@
+package Alpha;
+
+package Beta;
+$Beta::VERSION = '1.00';
+
+package Gamma;
+our $VERSION = '2.00';
+
+package Delta;
+our $VERSION = 0.01;
+$VERSION = 0.50;
+
+package Test::Pod::No404s;
+$Test::Pod::No404s::VERSION = '0.02';
+
+package FindBin;
+our $VERSION = $VERSION = sprintf("%d.%02d", q$Revision: 1.9 $ =~ /(\d+)\.(\d+)/);
+
+package ExtUtils::Install;
+$VERSION = substr q$Revision: 1.8 $, 10;
+
+package CGI::Apache;
+$VERSION = (qw$Revision: 1.7 $)[1];
+
+package DynaLoader;
+$VERSION = $VERSION = "1.03";     # avoid typo warning
+
+package Config::General;
+$Config::General::VERSION = 2.33;
+
+package Alpha::Beta123;
+our $VERSION = $Alpha::Beta123::VERSION=1.23;
+
+package Template;
+$Template::VERSION ="3.45";
+
+package Zeta;
+$VERSION = "1.01";
+$VERSION = $VERSION + 0.05;
+
+package Theta;
+$tmp = 1.56
+$VERSION = $tmp;
+
+package Iota;
+$Iota::VERSION = 1;
+
+package Omega;
+$VERSION="9.87_65";
+
+package Test::Kwalitee::Extra;
+our $VERSION = 'v0.3.0';
+
+package XML::Grove;
+$VERSION = '0.46alpha';

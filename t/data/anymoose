@@ -1,0 +1,4 @@
+use Any::Moose;
+use Any::Moose qw(Role);
+use Any::Moose 'Alpha';
+use Any::Moose 0.18 'Role::Alpha';

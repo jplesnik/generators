@@ -1,0 +1,4 @@
+use $alfa;
+use @beta 1.00;
+use %charlie qw//;
+require *delta;

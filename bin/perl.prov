@@ -137,7 +137,7 @@ sub process_file {
     # or with the new "our" pragma you could (read will) see:
     #
     #    our $VERSION = '1.00'
-    if ($package && m/^\s*(our\s+)?\$(\Q$package\E::)?VERSION\s*=\s+/) {
+    if ($package && m/^\s*(our\s+)?\$(\Q$package\E::)?VERSION\s*=\s*/) {
 
       # first see if the version string contains the string
       # '$Revision' this often causes bizarre strings and is the most
@@ -145,7 +145,7 @@ sub process_file {
 
       if (m/\$Revision: (\d+[.0-9]+)/) {
         $version = $1;
-      } elsif (m/['"]?(\d+[.0-9]+)['"]?/) {
+      } elsif (m/\b['"]?[v]?(\d+(?:\.[.0-9]+)?)(_\d*|[a-zA-Z]*)?['"]?\b/) {
 
         # look for a static number hard coded in the script
 

@@ -138,6 +138,8 @@ sub process_file {
     }
 
     my $modver_re = qr/[.0-9]+/;
+    my $begin_re = qr#qw\s*[(\/'"!|{]\s*|qq?\s*[(\/'"!|{]\s*|['"]#;
+    my $end_re   = qr#[)\/"'!|}]#;
 
     if (
 
@@ -152,13 +154,21 @@ sub process_file {
         (m/^(\s*)         # we hope the inclusion starts the line
          (require|use)\s+(?!\{)     # do not want 'do {' loops
          # quotes around name are always legal
-         ['"]?([^; '"\t#]+)['"]?[\t; ]
+         $begin_re?\s*
+         ([^)"'!|} \t#;]*?)
+         \s*$end_re?[\t; ]
          # the syntax for 'use' allows version requirements
+         \s*($modver_re|)\s*
+         # catch parameter like '-norequire,'
+         (-[\w,]+|)\s*
          # the latter part is for "use base qw(Foo)" and friends special case
-         \s*($modver_re|(qw\s*[(\/'"]\s*|['"])[^)\/"'\$]*?\s*[)\/"'])?
+         (?:$begin_re\s*
+         ([^)\/"'\$!|}]*?)
+         \s*$end_re|['"][^'"]+['"]|)
          /x)
        ) {
-      my ($whitespace, $statement, $module, $version) = ($1, $2, $3, $4);
+      my ($whitespace, $statement, $module, $version, $params, $list) = ($1, $2, $3, $4, $5, $6);
+      $version = undef if ($version eq '');
 
       # we only consider require statements that are flushed against
       # the left edge. any other require statements give too many
@@ -172,6 +182,9 @@ sub process_file {
       #        do "$ENV{LOGDIR}/$rcfile";
 
       ($module =~ m/\$/) && next;
+
+      # ignore variables
+      ($module =~ m/^\s*[\$%@\*]/) && next;
 
       # skip if the phrase was "use of" -- shows up in gimp-perl, et al.
       next if $module eq 'of';
@@ -200,12 +213,13 @@ sub process_file {
       $module =~ s/\(.*$//;
 
       # if the module ends with .pm, strip it to leave only basename.
-      $module =~ s/\.pm$//;
+      # .pm files are not accepted by 'use'
+      ($module =~ s/\.pm$// && $statement eq 'use' ) && next;
 
       # some perl programmers write 'require URI/URL;' when
       # they mean 'require URI::URL;'
 
-      $module =~ s/\//::/;
+      ($module =~ s/\//::/ && $statement eq 'use' ) && next;
 
       # trim off trailing parentheses if any.  Sometimes people pass
       # the module an empty list.
@@ -213,18 +227,18 @@ sub process_file {
       $module =~ s/\(\s*\)$//;
 
       if ( $module =~ m/^v?([0-9._]+)$/ ) {
-      # if module is a number then both require and use interpret that
-      # to mean that a particular version of perl is specified
+        # if module is a number then both require and use interpret that
+        # to mean that a particular version of perl is specified
 
-      my $ver = $1;
-      if ($ver =~ /5.00/) {
-        $perlreq{"0:$ver"} = 1;
-        next;
-      }
-      else {
-        $perlreq{"1:$ver"} = 1;
-        next;
-      }
+        my $ver = $1;
+        if ($ver =~ /5.00/) {
+          $perlreq{"0:$ver"} = 1;
+          next;
+        }
+        else {
+          $perlreq{"1:$ver"} = 1;
+          next;
+        }
 
       };
 
@@ -244,17 +258,37 @@ sub process_file {
       ($module =~ m/\.ph$/) && next;
 
       # use base|parent qw(Foo) dependencies
-      if ($statement eq "use" && ($module eq "base" || $module eq "parent")) {
-        add_require($module, undef);
-        if ($version =~ /^qw\s*[(\/'"]\s*([^)\/"']+?)\s*[)\/"']/) {
-          add_require($_, undef) for split(' ', $1);
-        }
-        elsif ($version =~ /(["'])([^"']+)\1/) {
-          add_require($2, undef);
+      # use aliased qw(Foo::Bar) dependencies
+      if ($statement eq "use" && ($module eq "base" || $module eq "aliased")) {
+        add_require($module, $version);
+        if (defined($list) && $list ne "") {
+          add_require($_, undef) for split(' ', $list);
         }
         next;
       }
-      $version = undef unless $version =~ /^$modver_re$/o;
+      if ($statement eq "use" && $module eq "parent") {
+        add_require($module, $version);
+        if (defined($list) && $list ne "" && $params !~ /-norequire/) {
+          add_require($_, undef) for split(' ', $list);
+        }
+        next;
+      }
+
+      # use Any::Moose dependencies
+      # Mouse or Mouse::Role will be added
+      if ($statement eq "use" && $module eq "Any::Moose") {
+        add_require($module, $version);
+        if (defined($list) && $list ne "") {
+          if (grep { !/^Role$/ } split(' ', $list)) {
+            add_require('Mouse::Role', undef);
+          } else {
+            add_require('Mouse', undef);
+          }
+        } else {
+          add_require('Mouse', undef);
+        }
+        next;
+      }
 
       add_require($module, $version);
     }

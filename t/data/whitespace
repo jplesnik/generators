@@ -1,0 +1,4 @@
+    use Use::WhiteSpace;
+
+# TODO: Stop ignoring 'require' with whitespaces at the beginning
+    require Require::WhiteSpace;

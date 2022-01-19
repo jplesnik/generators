@@ -45,8 +45,8 @@ use aliased "Another::Crazy::Module" => "ShorterName";
 
 use Moose;
 # Is not find yet
-with 'Foo::Bar' => { -version => 0.01 },
-     'Bar::Baz' => { -version => 0.03 };
+with 'Foo::Bar'; # => { -version => 0.01 },
+     'Bar::Baz'; # => { -version => 0.03 };
 
 use Test::Requires qw(TestRequiresArray1 TestRequiresArray2);
 use Test::Requires {TestRequiresHash1 => 0.1, TestRequiresHash2 => 0.2};

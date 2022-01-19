@@ -1,6 +1,14 @@
 Revision history for perl-generators.
 
-1.00  Tue May22 2014
+1.01  Tue May 22 2014
+- Fixed BZ#1160263 - do not catch numeric substring in the
+  variable name for VERSION
+- Update requires generator to:
+  - ignore variables in statement
+  - .pm files are not added with 'use'
+  - argument of 'aliased' is added
+
+1.00  Tue May 22 2014
 - First version
 - Take the Perl generators and fileattrs file from rpm-build 4.11.2
   and create perl-generators package

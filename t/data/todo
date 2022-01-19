@@ -1,0 +1,15 @@
+# Examples of currently ignore requires
+
+eval { require Alpha };
+require Beta if $something > $somethingelse;
+
+# Parameters for module 'if' are not handle properly
+use if $] < 5.008, "Gamma";
+use if WANTED, Delta => qw(Epsilon);
+
+use $alfa;
+use @beta 1.00;
+use %charlie qw//;
+use Delta.pm;
+require *delta;
+
