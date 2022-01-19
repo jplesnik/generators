@@ -38,6 +38,7 @@ my @expectedprovides = (
     "perl(Zeta) = 0.05\n",
     "perl(Module::ExtractUse) = 0.33\n",
     "perl(Module::Info)\n",
+    "perl(IRI) = 0.004\n",
 );
 
 is_deeply([ sort @provides ], [ sort @expectedprovides ], "All expected provides were found.");

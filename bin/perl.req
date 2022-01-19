@@ -152,8 +152,8 @@ sub process_file {
     }
 
     my $modver_re = qr/[.0-9]+/;
-    my $begin_re = qr#qw\s*[(\/'"!|{]\s*|qq?\s*[(\/'"!|{]\s*|['"]#;
-    my $end_re   = qr#[)\/"'!|}]#;
+    my $begin_re = qr#qw\s*[(\/'"!|{\[]\s*|qq?\s*[(\/'"!|{\[]\s*|['"]#;
+    my $end_re   = qr#[)\/"'!|}\]]#;
 
     # Skip multiline print and assign statements
     if ( m/\$\S+\s*=\s*(")([^"\\]|(\\.))*$/ ||

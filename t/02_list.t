@@ -32,6 +32,7 @@ my @expectedrequires = (
     "perl(constant)\n",
     "perl(TARGET_CLASS)\n",
     "perl(XML::XQL::Element)\n",
+    "perl(Class::Accessor::Fast)\n",
 );
 
 is_deeply([ sort @requires ], [ sort @expectedrequires ], "Only expected requires were found.");

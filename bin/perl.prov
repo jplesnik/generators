@@ -123,7 +123,7 @@ sub process_file {
     # package name so we report all namespaces except some common
     # false positives as if they were provided packages (really ugly).
 
-    if (m/^\s*package\s+([_:a-zA-Z0-9]+)\s*v?([0-9._]+)?\s*;/) {
+    if (m/^\s*package\s+([_:a-zA-Z0-9]+)\s*v?([0-9._]+)?\s*(;|{)/) {
       $package = $1;
       $version = defined($2) ? $2 : undef;
       if ($package eq 'main') {

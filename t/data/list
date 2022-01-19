@@ -24,6 +24,8 @@ use base qw (
     This
     One );
 
+use parent qw[Class::Accessor::Fast];
+
 # Two examples from perl-Sys-Info-Base
 # "__PACKAGE__" should not be found
 use base __PACKAGE__->load_subclass('Sys::Info::Driver::%s::Device::CPU');
