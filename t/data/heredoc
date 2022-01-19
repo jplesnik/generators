@@ -150,6 +150,26 @@ package Number::As::Tag;
 use Number::As::Tag;
 1234
 
+$cost = <<\VISTA;   # Same thing!
+ That'll be $10 please, ma'am.
+package Vista
+use Vista
+VISTA
+
+s/this/<<E . 'that'
+the other
+package Regex
+use Regex
+E
+. 'more '/eg;
+
+# Should not hang the test
+sub demo {
+  $foobarbaztest++ if  /\s*= <<'/x;
+  use Not::Hang
+}
+
+
 # This case should be the last and should be found each time.
 print "<<TEST";
 push @OUT, "return <<'END';\n";

@@ -22,6 +22,7 @@ my @expectedrequires = (
     "perl(Bitwise::Operator)\n",
     "perl(constant)\n",
     "perl(More::Then::Two::Mark)\n",
+    "perl(Not::Hang)\n",
     "perl(Not::In::Heredoc)\n",
     "perl(THAT)\n",
 );

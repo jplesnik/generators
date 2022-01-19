@@ -1,5 +1,8 @@
 Revision history for perl-generators.
 
+1.09  Thu Jun 23 2016
+- Fix regression in parsing of heredoc
+
 1.08  Fri Mar 18 2016
 - Accept square brackets for list of dependencies
 - Fixed generator to produce provides from code like this
@@ -28,7 +31,7 @@ Revision history for perl-generators.
 - Add changes released in rpm 4.12.0
 
 1.03  Mon Feb  2 2015
-- Update parcing of here-doc and quoted section which should be skipped
+- Update parsing of here-doc and quoted section which should be skipped
 - Update tests suite
 
 1.02  Fri Dec 12 2014
