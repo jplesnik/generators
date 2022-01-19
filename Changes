@@ -1,5 +1,9 @@
 Revision history for perl-generators.
 
+1.10  Fri Jul  1 2016
+- Update Makefile.PL to be able change requires/provides namespace for
+  software collection
+
 1.09  Thu Jun 23 2016
 - Fix regression in parsing of heredoc
 

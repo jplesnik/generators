@@ -20,6 +20,8 @@
 # then these are treated as additional names which are required by the
 # file and are printed as well.
 
+my $perl_ns = "__PERL_NS__";
+
 $HAVE_VERSION = 0;
 eval { require version; $HAVE_VERSION = 1; };
 use Fedora::VSP ();
@@ -41,18 +43,18 @@ if ("@ARGV") {
 
 
 foreach $perlver (sort keys %perlreq) {
-  print "perl(:VERSION) >= $perlver\n";
+  print "$perl_ns(:VERSION) >= $perlver\n";
 }
 foreach $module (sort keys %require) {
   if (length($require{$module}) == 0) {
-    print "perl($module)\n";
+    print "$perl_ns($module)\n";
   } else {
 
     # I am not using rpm3.0 so I do not want spaces around my
     # operators. Also I will need to change the processing of the
     # $RPM_* variable when I upgrade.
 
-    print "perl($module) >= $require{$module}\n";
+    print "$perl_ns($module) >= $require{$module}\n";
   }
 }
 
