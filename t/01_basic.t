@@ -3,9 +3,14 @@ use warnings;
 use Test::More tests => 2;
 use Test::Simple;
 
+use lib 't/lib';
+use PerlNS qw($PERL_NAMESPACE $PERL_PROV $PERL_REQ);
+
+my $perl_ns = $PERL_NAMESPACE;
+
 my $files    = "t/data/basic";
-my @requires = qx(bin/perl.req $files);
-my @provides = qx(bin/perl.prov $files);
+my @requires = qx($PERL_REQ $files);
+my @provides = qx($PERL_PROV $files);
 
 #
 # Provides
@@ -14,21 +19,21 @@ is(scalar(@provides), 0, 'No package is provided');
 #
 # Requires
 my @expectedrequires = (
-    "perl(:VERSION) >= 5.6.1\n",
-    "perl(:VERSION) >= 5.6.0\n",
-    "perl(:VERSION) >= 5.10.0\n",
-    "perl(Alpha) >= 0.12\n",
-    "perl(Alpha::One)\n",
-    "perl(Alpha::Two)\n",
-    "perl(Beta)\n",
-    "perl(Epsilon)\n",
-    "perl(Eta)\n",
-    "perl(ExtUtils::MM_Unix)\n",
-    "perl(Gamma)\n",
-    "perl(Iota)\n",
-    "perl(Kappa)\n",
-    "perl(Lambda)\n",
-    "perl(Theta)\n",
+    "$perl_ns(:VERSION) >= 5.6.1\n",
+    "$perl_ns(:VERSION) >= 5.6.0\n",
+    "$perl_ns(:VERSION) >= 5.10.0\n",
+    "$perl_ns(Alpha) >= 0.12\n",
+    "$perl_ns(Alpha::One)\n",
+    "$perl_ns(Alpha::Two)\n",
+    "$perl_ns(Beta)\n",
+    "$perl_ns(Epsilon)\n",
+    "$perl_ns(Eta)\n",
+    "$perl_ns(ExtUtils::MM_Unix)\n",
+    "$perl_ns(Gamma)\n",
+    "$perl_ns(Iota)\n",
+    "$perl_ns(Kappa)\n",
+    "$perl_ns(Lambda)\n",
+    "$perl_ns(Theta)\n",
 );
 
 is_deeply([ sort @requires ], [ sort @expectedrequires ], "Only expected requires were found.");
