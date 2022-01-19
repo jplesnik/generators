@@ -153,15 +153,16 @@ sub process_file {
     # or with the new "our" pragma you could (read will) see:
     #
     #    our $VERSION = '1.00'
-    if ($package && m/^\s*(our\s+)?\$(\Q$package\E::)?VERSION\s*=[^=~>]\s*/) {
+    if ($package && m/^\s*(?:[^#=]*=[^=~>]|)?\s*(?:our\s+)?\$(?:\Q$package\E::)?VERSION\s*=([^=~>]\s*[^;]*)/) {
+      my $version_str = $1;
 
       # first see if the version string contains the string
       # '$Revision' this often causes bizarre strings and is the most
       # common method of non static numbering.
 
-      if (m/\$Revision: (\d+[.0-9]+)/) {
+      if ($version_str =~ m/\$Revision: (\d+[.0-9]+)/) {
         $version = $1;
-      } elsif (m/\b['"]?v?(\d+(?:\.[.0-9]+)?)(_\d*|[a-zA-Z]*)?['"]?\b/) {
+      } elsif ($version_str =~ m/\b['"]?v?(\d+(?:\.[.0-9]+)?)(_\d*|[a-zA-Z]*)?['"]?\b/) {
 
         # look for a static number hard coded in the script
 

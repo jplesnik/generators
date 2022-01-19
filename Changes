@@ -1,6 +1,10 @@
 Revision history for perl-generators.
+1.04  Tue Jul 28 2015
+- Update parsing of provide's version
+- Add changes released in rpm 4.12.0
+
 1.03  Mon Feb  2 2015
-- Updated parcing of here-doc and quoted section which should be skipped
+- Update parcing of here-doc and quoted section which should be skipped
 - Update tests suite
 
 1.02  Fri Dec 12 2014

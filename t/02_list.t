@@ -23,6 +23,7 @@ my @expectedrequires = (
     "perl(aliased)\n",
     "perl(base)\n",
     "perl(parent)\n",
+    "perl(Theta)\n",
 );
 
 is_deeply([ sort @requires ], [ sort @expectedrequires ], "Only expected requires were found.");

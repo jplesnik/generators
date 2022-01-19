@@ -71,3 +71,7 @@ package
    Sigma
    1.27
    ;
+
+package DBI;
+our $XS_VERSION = our $VERSION = "1.633"; # ==> ALSO update the version in the pod text below!
+

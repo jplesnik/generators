@@ -26,4 +26,7 @@ my @expectedrequires = (
     "perl(THAT)\n",
 );
 
+use Data::Dumper;
+print Dumper(@requires);
+
 is_deeply([ sort @requires ], [ sort @expectedrequires ], "Only expected requires were found.");

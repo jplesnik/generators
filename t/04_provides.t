@@ -16,6 +16,7 @@ my @expectedprovides = (
     "perl(Beta) = 1.00\n",
     "perl(CGI::Apache) = 1.7\n",
     "perl(Config::General)\n",
+    "perl(DBI) = 1.633\n",
     "perl(Delta) = 0.50\n",
     "perl(DynaLoader) = 1.03\n",
     "perl(ExtUtils::Install) = 1.8\n",

@@ -40,7 +40,7 @@ require temp also should not be found in a text
 
 #
 # Dist-Zilla-5.027/lib/Dist/Zilla/Plugin/MakeMaker.pm
-# None of requirement befor last '!' should not be reported
+# None of requirement before last '!' should not be reported
 my $template = q!
 package Template;
 use strict;
@@ -122,6 +122,16 @@ Test::Unit Version $Test::Unit::VERSION
 use Heredoc::in::Use;
 EOF
 
+  print <<EOF1;
+Usage: $0 [OPTIONS]
+  --defaults-file=name Only read default options from the given file name.
+  --force              Causes mysql_install_db to run even if DNS does not
+                       work.  In that case, grant table entries that normally
+                       use hostnames will use IP addresses.
+  --help               Display this help and exit.                     
+EOF1
+
+
 # Should not break test
 if (defined $::RD_TRACE) {
     Parse::RecDescent::_trace(q{<<'.Parse::RecDescent::_matchtracemessage($self,1).' rule>>},
@@ -136,7 +146,7 @@ $trase = q!<<TEST help
 !;
 
 print <<'1234';
-packageNumber::As::Tag;
+package Number::As::Tag;
 use Number::As::Tag;
 1234
 

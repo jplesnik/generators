@@ -1,7 +1,8 @@
 use base 'Alpha';
 use base qw(Beta Gamma);
-use base qw(Delta);
+use base qw<Delta>;
 use parent 'Epsilon';
+use parent qw{Theta};
 
 # 'Zeta', 'Iota' should not be found
 use parent -norequire, qw(Zeta Iota);
