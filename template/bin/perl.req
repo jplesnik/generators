@@ -368,9 +368,11 @@ sub process_file {
         }
         next;
       }
+      # use parent -norequire, 'No::Version'; # $params == "-norequire,"
+      # use parent qw/-norequire XML::XPath::Node/; # $list == "-norequire XML::XPath::Node"
       if ($statement eq "use" && $module eq "parent") {
         add_require($module, $version);
-        if (defined($list) && $list ne "" && $params !~ /-norequire/) {
+        if (defined($list) && $list ne "" && $list !~ /-norequire/ && $params !~ /-norequire/) {
           add_require($_, undef) for split(' ', $list);
         }
         next;

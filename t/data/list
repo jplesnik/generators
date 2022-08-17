@@ -4,8 +4,12 @@ use base qw<Delta>;
 use parent 'Epsilon';
 use parent qw{Theta};
 
-# 'Zeta', 'Iota' should not be found
+# 'Zeta', 'Iota', 'Not::Require*' should not be found
 use parent -norequire, qw(Zeta Iota);
+use parent -norequire, 'Not::Require1', 'Not::Require2';
+use parent -norequire, 'Not::Require3';
+use parent qw/-norequire Not::Require4/;
+use parent '-norequire', 'Not::Require5';
 
 use aliased "Some::Crazy::Module";
 
