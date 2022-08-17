@@ -230,6 +230,7 @@ sub process_file {
 
 
         (m/^(\s*)         # we hope the inclusion starts the line
+         (?:BEGIN\s*\{\s*)? # but we accept an optional BEGIN { as used in Module::Loaded
          (require|use)\s+(?!\{)     # do not want 'do {' loops
          # quotes around name are always legal
          (?:$begin_re?\s*([\w:\/\.]+?)\s*$end_re?|

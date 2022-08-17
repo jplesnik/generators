@@ -21,6 +21,11 @@ use Test::Simple;
     use Use::WhiteSpace;
 
 ###################################################
+# 'use' with BEGIN at the beginning
+
+BEGIN {    use Use::Begin; }
+
+###################################################
 # 'use' with version
 
 use v5.6.1;
@@ -38,6 +43,8 @@ use overload
     + = \&plus;
 
 use POE qw(System::Wheel Client::HTTP);
+
+# This dependency add also 'perl(Mouse)'
 use Any::Moose 'Role';
 
 use aliased "Some::Crazy::Module";
@@ -81,6 +88,11 @@ require Carp;
 # TODO
     require Require::WhiteSpace;
 
+###################################################
+# 'require' with BEGIN at the beginning
+
+BEGIN {    require Require::Begin;
+}
 
 # TODO
 # Does not find modules defined at 'eval'
