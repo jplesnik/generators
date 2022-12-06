@@ -26,3 +26,5 @@ require "Iota.pm";
 require q !Kappa.pm!;
 require qq{Lambda.pm};
 
+require "Replace/Slash/Colon";
+require './ignore/relative/import.pl'

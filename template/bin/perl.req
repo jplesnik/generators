@@ -302,10 +302,9 @@ sub process_file {
       ($module  =~ m/[,>]$/) && next;
 
       # if the module name starts in a dot it is not a module name.
-      # Is this necessary?  Please give me an example if you turn this
-      # back on.
+      # BEGIN {require './t/lifecycles/utils.pl'};
 
-      #      ($module =~ m/^\./) && next;
+      ($module =~ m/^\./) && next;
 
       # if the module starts with /, it is an absolute path to a file
       if ($module =~ m(^/)) {
@@ -325,7 +324,7 @@ sub process_file {
       # some perl programmers write 'require URI/URL;' when
       # they mean 'require URI::URL;'
 
-      ($module =~ s/\//::/ && $statement eq 'use' ) && next;
+      ($module =~ s/\//::/g && $statement eq 'use' ) && next;
 
       # trim off trailing parentheses if any.  Sometimes people pass
       # the module an empty list.

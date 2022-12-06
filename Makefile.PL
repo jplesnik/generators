@@ -38,7 +38,7 @@ sub wanted {
  
 WriteMakefile(
     'NAME' => 'generators',
-    'VERSION' => '1.14',
+    'VERSION' => '1.15',
     'AUTHOR' => 'Jitka Plesnikova <jplesnik@redhat.com>',
     'LICENSE' => 'gpl',
     'EXE_FILES' => [ "bin/perl.prov$suffix", "bin/perl.req$suffix" ],

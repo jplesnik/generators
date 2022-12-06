@@ -1,5 +1,8 @@
 Revision history for perl-generators.
 
+1.15  Tue Dec  6 2022
+- Relative imports (./) are ignored (BZ#2150992)
+
 1.14  Wed Aug 17 2022
 - Find requires on 'BEGIN {' lines (BZ#2029995) - thanks Charles R. Anderson
 - Properly filter parameter '-norequire'

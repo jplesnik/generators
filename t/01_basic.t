@@ -31,6 +31,7 @@ my @expectedrequires = (
     "$perl_ns(Iota)\n",
     "$perl_ns(Kappa)\n",
     "$perl_ns(Lambda)\n",
+    "$perl_ns(Replace::Slash::Colon)\n",
     "$perl_ns(Theta)\n",
 );
 
