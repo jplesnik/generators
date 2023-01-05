@@ -1,0 +1,8 @@
+%__perlcompat_requires() %{lua:
+    if macros[1]:match('.+%.so$') and macros.perl_version then
+        print('perl(:MODULE_COMPAT_' .. macros.perl_version .. ')')
+    else
+        print('perl-libs')
+    end
+}
+%__perlcompat_path ^(%{perl_vendorarch}|%{perl_vendorlib}|%{perl_privlib}|%{perl_archlib})/.+

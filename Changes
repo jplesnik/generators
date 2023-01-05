@@ -1,5 +1,9 @@
 Revision history for perl-generators.
 
+1.16  Thu Jan  5 2023
+- Add file perlcompat.attr which generates replacement for versioned
+  MODULE_COMPAT (BZ#2158233)
+
 1.15  Tue Dec  6 2022
 - Relative imports (./) are ignored (BZ#2150992)
 
